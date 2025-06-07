@@ -67,9 +67,19 @@ docker run --rm -it -v "$PWD:/workspace" mlc-llm-dev bash
 
 ## Live Demo & Sample Output
 
-The CI/CD pipeline deploys the Docker image to **Fly.io**. A demo server is
+The CI/CD pipeline deploys the Docker image to **Fly.io**. A **demo** server is
 running at <https://mlc-llm.fly.dev/> using the quantized model
 `Llama-2-7b-chat-glm-4b-q0f16_0`.
+
+> **Note**
+> This server is intended purely for demonstration. It runs with CPU only
+> because GitHub Actions does not provide GPU runners. The underlying
+> [MLC-LLM](https://llm.mlc.ai/) framework supports serving models on CPUs,
+> GPUs and other accelerators.
+
+To use a different model, set a `DEFAULT_MODEL` environment variable (or edit
+`fly.toml`) and ensure `docker/entrypoint.sh` reads this value as shown in
+[docs/ci.md](docs/ci.md#5-replacing-models).
 
 ```bash
 curl https://mlc-llm.fly.dev/
