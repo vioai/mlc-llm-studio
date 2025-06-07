@@ -53,11 +53,11 @@ fi
 #
 echo "[INFO] Running API test (POST /v1/chat/completions)..."
 set +e
-curl -X POST http://localhost:8000/v1/chat/completions \
-     -H "Content-Type: application/json" \
-     -d '{"model":"Llama-2-7b-chat-glm-4b-q0f16_0","messages":[{"role":"user","content":"Hello?"}]}' \
-     -o /tmp/chat_response.json \
-     -w "\n→ HTTP status: %{http_code}\n"
+HTTP_CODE=$(curl -s -X POST http://localhost:8000/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -d '{"model":"Llama-2-7b-chat-glm-4b-q0f16_0","messages":[{"role":"user","content":"Hello?"}]}' \
+        -o /tmp/chat_response.json \
+        -w "%{http_code}")
 TEST_EXIT=$?
 set -e
 
@@ -66,9 +66,6 @@ if [[ $TEST_EXIT -ne 0 ]]; then
   kill "$SERVER_PID" 2>/dev/null || true
   exit $TEST_EXIT
 fi
-
-# Extract the last line (“→ HTTP status: XXX”) as HTTP_CODE
-HTTP_CODE=$(tail -n1 /tmp/chat_response.json | sed -n 's/→ HTTP status: //p')
 
 if [[ "$HTTP_CODE" -ne 200 ]]; then
   echo "[ERROR] Chat endpoint did not return HTTP 200. Got: $HTTP_CODE"
@@ -79,8 +76,7 @@ if [[ "$HTTP_CODE" -ne 200 ]]; then
 fi
 
 echo "[INFO] Chat endpoint returned 200 OK. Dumping response body:"
-# Print every line except the final “HTTP status” line
-head -n -1 /tmp/chat_response.json || true
+cat /tmp/chat_response.json
 
 #
 # Tear down
