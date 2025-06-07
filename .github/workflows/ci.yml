@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # fetch full history so tags and commits are available
 
       - name: Setup QEMU (for cross-build support)
         uses: docker/setup-qemu-action@v3
@@ -42,7 +44,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_PAT }}
+          password: ${{ secrets.ORG_GHCR_PAT }}   # <-- use your org‐level secret here
 
       - name: Build & Push Docker image
         uses: docker/build-push-action@v5
@@ -65,16 +67,14 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_PAT }}
+          password: ${{ secrets.ORG_GHCR_PAT }}   # <-- use the same secret
 
-      - name: Run test-image.sh in container (timeout 60s, then continue)
+      - name: Run test-image.sh in container (timeout 60s)
         run: |
           timeout 60s docker run --rm \
             ${{ needs.build-and-push.outputs.image }} \
             ./scripts/test-image.sh
         continue-on-error: true
-        # Even if tests fail or hang, we let the pipeline continue.
-        # If you want to stop on failure, remove `continue-on-error: true`.
 
   ################################################################
   build-wheels:
@@ -88,6 +88,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python ${{ matrix.os }}
         uses: actions/setup-python@v5
@@ -126,6 +128,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Download wheel artifacts
         uses: actions/download-artifact@v4
@@ -162,6 +166,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Fly CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
@@ -170,5 +176,4 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: |
-          # Uses the `app = "…"` value from fly.toml to select which Fly app to update
           flyctl deploy --remote-only --image ${{ env.IMAGE_NAME }}
