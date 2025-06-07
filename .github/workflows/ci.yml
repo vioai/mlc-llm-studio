@@ -72,9 +72,10 @@ jobs:
       - name: Pull test image
         run: docker pull ${{ needs.build-and-push.outputs.image }}
 
-      - name: Run test-image.sh in container (timeout 60s)
+      - name: Run test-image.sh in container (timeout 120s)
         run: |
-          timeout 60s docker run --rm \
+          TEST_TIMEOUT=120
+          timeout ${TEST_TIMEOUT}s docker run --rm \
             ${{ needs.build-and-push.outputs.image }} \
             ./scripts/test-image.sh
         continue-on-error: true

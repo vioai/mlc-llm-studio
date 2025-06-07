@@ -209,12 +209,15 @@ In GitHub Actions, the **test** job runs:
 ```yaml
 - name: Run test-image.sh with timeout
   run: |
-    timeout 60s docker run --rm ${{ needs.build-and-push.outputs.image }} ./scripts/test-image.sh \
+    TEST_TIMEOUT=120
+    timeout ${TEST_TIMEOUT}s docker run --rm \
+      ${{ needs.build-and-push.outputs.image }} ./scripts/test-image.sh \
       && echo "✅ container tests passed." \
       || echo "⚠️ container tests timed out or failed, proceeding."
 ```
 
-* If `test-image.sh` takes longer than 60 seconds or exits non-zero, the step logs a warning but does not fail the entire pipeline (using `|| echo …`).
+* If `test-image.sh` runs longer than the configured timeout (120&nbsp;seconds by default) or exits non-zero, the step logs a warning but does not fail the entire pipeline (thanks to `|| echo …`).
+* A timeout will cause exit code **124**, indicating the container was forcibly terminated.
 * **`scripts/test-image.sh`** typically does:
 
   1. Import test: `python -c "import mlc_llm"`.
@@ -416,7 +419,7 @@ To use a different LLM model:
 | --------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | - | ----------- |
 | “Unable to locate package …”            | `apt-packages.txt` contains comments or extra text     | Remove comments; include only valid package names.                                                |   |             |
 | “Exec format error” for `entrypoint.sh` | `entrypoint.sh` has CRLF line endings or wrong shebang | Run `sed -i '' -e 's/\r$//' docker/entrypoint.sh` and ensure `#!/usr/bin/env bash` is first line. |   |             |
-| Container tests hang indefinitely       | `test-image.sh` waits for a server that never starts   | Wrap `docker run` in \`timeout 60s …                                                              |   | echo "…";\` |
+| Container tests hang indefinitely       | `test-image.sh` waits for a server that never starts   | Wrap `docker run` in \`timeout 120s …                                                              |   | echo "…";\` |
 | Fly healthcheck fails (port not opened) | Server did not bind to `$PORT` or crashed              | Confirm `ENTRYPOINT` uses `--host 0.0.0.0 --port $PORT`.                                          |   |             |
 
 ---
