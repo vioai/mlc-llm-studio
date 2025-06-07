@@ -22,3 +22,10 @@ def test_chat_endpoint():
     assert body.get("model") == "test"
     assert body["choices"][0]["message"]["role"] == "assistant"
     assert "test model response" in body["choices"][0]["message"]["content"]
+
+
+def test_info_endpoint():
+    response = client.get("/info")
+    assert response.status_code == 200
+    body = response.json()
+    assert "default_model" in body
