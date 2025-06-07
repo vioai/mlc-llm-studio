@@ -80,6 +80,8 @@ running at <https://mlc-llm.fly.dev/> using the quantized model
 To use a different model, set a `DEFAULT_MODEL` environment variable (or edit
 `fly.toml`) and ensure `docker/entrypoint.sh` reads this value as shown in
 [docs/ci.md](docs/ci.md#5-replacing-models).
+**Tip**: For quick local tests, you can download the smaller quantized model `Llama-2-7b-chat-hf-q4f16_1` and serve it as shown in [docs/README.md](docs/README.md#local-development-instructions).
+
 
 ```bash
 curl https://mlc-llm.fly.dev/
