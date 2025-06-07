@@ -29,3 +29,9 @@ def test_info_endpoint():
     assert response.status_code == 200
     body = response.json()
     assert "default_model" in body
+
+
+def test_demo_page_served():
+    response = client.get("/demo/")
+    assert response.status_code == 200
+    assert "Simple Chatbot" in response.text
