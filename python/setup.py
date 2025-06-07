@@ -11,6 +11,7 @@ setup(
         "uvicorn[standard]",
         "pytest",
         "requests",
+        "httpx<0.26",
     ],
     python_requires=">=3.8",
     entry_points={

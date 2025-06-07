@@ -3,3 +3,4 @@ uvicorn
 pydantic
 pytest
 requests
+httpx<0.26
