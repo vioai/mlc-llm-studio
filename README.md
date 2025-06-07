@@ -63,6 +63,10 @@ docker build -t mlc-llm-dev -f docker/Dockerfile .
 
 # Start an interactive shell with the repo mounted
 docker run --rm -it -v "$PWD:/workspace" mlc-llm-dev bash
+
+# (inside container) install the package and run tests
+pip install -e python
+pytest python/tests
 ```
 
 ## Live Demo & Sample Output
