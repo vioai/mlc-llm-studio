@@ -12,9 +12,20 @@ app = FastAPI()
 # The frontend lives in the repository root under ``frontend/``. When the
 # package is installed in editable mode this directory sits two levels above
 # this file (../../frontend).
-FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
-if FRONTEND_DIR.exists():
-    app.mount("/demo", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="demo")
+REPO_FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+PACKAGE_FRONTEND_DIR = Path(__file__).resolve().parent / "frontend"
+if PACKAGE_FRONTEND_DIR.exists():
+    app.mount(
+        "/demo",
+        StaticFiles(directory=str(PACKAGE_FRONTEND_DIR), html=True),
+        name="demo",
+    )
+elif REPO_FRONTEND_DIR.exists():
+    app.mount(
+        "/demo",
+        StaticFiles(directory=str(REPO_FRONTEND_DIR), html=True),
+        name="demo",
+    )
 
 @app.get("/")
 def read_root():

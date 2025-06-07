@@ -6,6 +6,8 @@ setup(
     version="0.1.0",
     description="Python package for MLC LLM runtime",
     packages=find_packages(),
+    package_data={"mlc_llm": ["frontend/*"]},
+    include_package_data=True,
     install_requires=[
         "fastapi",
         "uvicorn[standard]",
