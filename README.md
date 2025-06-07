@@ -81,6 +81,13 @@ To use a different model, set a `DEFAULT_MODEL` environment variable (or edit
 `fly.toml`) and ensure `docker/entrypoint.sh` reads this value as shown in
 [docs/ci.md](docs/ci.md#5-replacing-models).
 
+The currently deployed model can be verified by querying the `/info` endpoint:
+
+```bash
+curl https://mlc-llm.fly.dev/info
+# {"default_model":"Llama-2-7b-chat-glm-4b-q0f16_0"}
+```
+
 ```bash
 curl https://mlc-llm.fly.dev/
 # {"message":"MLC-LLM server running"}
@@ -100,7 +107,7 @@ curl -X POST https://mlc-llm.fly.dev/v1/chat/completions \
 
 - Add optional Swagger UI (`/docs`) for interactive exploration.
 - Deploy on GPU-backed nodes (AWS EC2/GCP) for realistic speed tests.
-- Support switching models via the `DEFAULT_MODEL` environment variable.
+- Improve configuration options for deploying various models.
 
 ---
 
