@@ -69,6 +69,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.ORG_GHCR_PAT }}   # <-- use the same secret
 
+      - name: Pull test image
+        run: docker pull ${{ needs.build-and-push.outputs.image }}
+
       - name: Run test-image.sh in container (timeout 60s)
         run: |
           timeout 60s docker run --rm \
