@@ -5,7 +5,7 @@ setup(
     name="mlc-llm",
     version="0.1.0",
     description="Python package for MLC LLM runtime",
-    packages=find_packages(),
+    packages=find_packages(include=["mlc_llm", "mlc_llm.*"]),
     package_data={"mlc_llm": ["frontend/*"]},
     include_package_data=True,
     install_requires=[
