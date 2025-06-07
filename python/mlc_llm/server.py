@@ -1,11 +1,17 @@
 import os
+from pathlib import Path
 from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
 
 # Default model used by the running server. This can be overridden by setting
 # the ``DEFAULT_MODEL`` environment variable when starting the container.
 DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "Llama-2-7b-chat-glm-4b-q0f16_0")
 
 app = FastAPI()
+# Serve the simple WebLLM front-end under /demo
+FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
+if FRONTEND_DIR.exists():
+    app.mount("/demo", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="demo")
 
 @app.get("/")
 def read_root():

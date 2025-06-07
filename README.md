@@ -105,6 +105,9 @@ curl -X POST https://mlc-llm.fly.dev/v1/chat/completions \
 # {"model":"Llama-2-7b-chat-glm-4b-q0f16_0","choices":[{"message":{"role":"assistant","content":"Hello! I am a test model response."}}]}
 ```
 
+A minimal WebLLM front-end is served from the container under `/demo`. Visit
+`https://mlc-llm.fly.dev/demo` to try a browser-based chat interface.
+
 ## Future Work
 
 - Add optional Swagger UI (`/docs`) for interactive exploration.
