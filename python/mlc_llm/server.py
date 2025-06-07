@@ -9,7 +9,10 @@ DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "Llama-2-7b-chat-glm-4b-q0f16_0")
 
 app = FastAPI()
 # Serve the simple WebLLM front-end under /demo
-FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
+# The frontend lives in the repository root under ``frontend/``. When the
+# package is installed in editable mode this directory sits two levels above
+# this file (../../frontend).
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
 if FRONTEND_DIR.exists():
     app.mount("/demo", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="demo")
 
