@@ -2,14 +2,29 @@
 set -euo pipefail
 
 #
-# 1) Start FastAPI in background
+# 1) Basic import test
 #
-echo "[INFO] Starting FastAPI server in background..."
+echo "[1/3] Testing MLC-LLM Python import..."
+python - <<'EOF'
+import mlc_llm
+print("MLC-LLM imported successfully")
+EOF
+
+#
+# 2) Unit tests
+#
+echo "[2/3] Running pytest unit tests..."
+pytest python/tests
+
+#
+# 3) Start FastAPI in background
+#
+echo "[3/3] Starting FastAPI server in background..."
 mlc_llm serve --host 0.0.0.0 --port 8000 &
 SERVER_PID=$!
 
 #
-# 2) Poll until the server’s root (GET /) is healthy
+# Poll until the server’s root (GET /) is healthy
 #
 MAX_RETRIES=15
 SLEEP_SECONDS=3
@@ -34,7 +49,7 @@ if [[ $SUCCESS -ne 1 ]]; then
 fi
 
 #
-# 3) POST a dummy chat request, expect HTTP 200
+# POST a dummy chat request, expect HTTP 200
 #
 echo "[INFO] Running API test (POST /v1/chat/completions)..."
 set +e
@@ -68,7 +83,7 @@ echo "[INFO] Chat endpoint returned 200 OK. Dumping response body:"
 head -n -1 /tmp/chat_response.json || true
 
 #
-# 4) Tear down
+# Tear down
 #
 echo "[INFO] Stopping server..."
 kill "$SERVER_PID" 2>/dev/null || true
