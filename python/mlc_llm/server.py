@@ -5,8 +5,8 @@ from fastapi.staticfiles import StaticFiles
 
 # Default model used by the running server. This can be overridden by setting
 # the ``DEFAULT_MODEL`` environment variable when starting the container.
-# DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "Llama-2-7b-chat-glm-4b-q0f16_0",)
-DEFAULT_MODEL = "HF://mlc-ai/Phi-3.5-vision-instruct-q4f16_1-MLC"
+# DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "phi-3-mini-4k-instruct-q4f16_1")
+DEFAULT_MODEL = "HF://mlc-ai/phi-3-mini-4k-instruct-q4f16_1"
 
 app = FastAPI()
 # Serve the simple WebLLM front-end under /demo
