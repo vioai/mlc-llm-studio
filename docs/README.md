@@ -132,12 +132,12 @@ curl https://mlc-llm.fly.dev/
 curl -X POST https://mlc-llm.fly.dev/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-        "model": "Llama-2-7b-chat-glm-4b-q0f16_0",
+        "model": "phi-3-mini-4k-instruct-q4f16_1",
         "messages": [
           { "role": "user", "content": "Hello, who are you?" }
         ]
       }'
-# {"model":"Llama-2-7b-chat-glm-4b-q0f16_0","choices":[{"message":{"role":"assistant","content":"Hello! I am a test model response."}}]}
+# {"model":"phi-3-mini-4k-instruct-q4f16_1","choices":[{"message":{"role":"assistant","content":"Hello! I am a test model response."}}]}
 ```
 
 ---

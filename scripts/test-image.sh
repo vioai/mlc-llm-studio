@@ -55,7 +55,7 @@ echo "[INFO] Running API test (POST /v1/chat/completions)..."
 set +e
 HTTP_CODE=$(curl -s -X POST http://localhost:8000/v1/chat/completions \
         -H "Content-Type: application/json" \
-        -d '{"model":"Llama-2-7b-chat-glm-4b-q0f16_0","messages":[{"role":"user","content":"Hello?"}]}' \
+        -d '{"model":"phi-3-mini-4k-instruct-q4f16_1","messages":[{"role":"user","content":"Hello?"}]}' \
         -o /tmp/chat_response.json \
         -w "%{http_code}")
 TEST_EXIT=$?

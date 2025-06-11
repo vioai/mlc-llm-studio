@@ -118,7 +118,7 @@ Typical workflow inside the container:
 1. **Download Model**:
 
    ```bash
-   mlc_llm download-model --model-name Llama-2-7b-chat-glm-4b-q0f16_0
+   mlc_llm download-model --model-name phi-3-mini-4k-instruct-q4f16_1
    ```
 
    Model weights are stored under `~/.cache/mlc_llm/models/`.
@@ -126,7 +126,7 @@ Typical workflow inside the container:
 2. **Serve Model**:
 
    ```bash
-   mlc_llm serve --model Llama-2-7b-chat-glm-4b-q0f16_0 --device cpu --host 0.0.0.0 --port 8000
+   mlc_llm serve --model phi-3-mini-4k-instruct-q4f16_1 --device cpu --host 0.0.0.0 --port 8000
    ```
 
    This spins up a Uvicorn server exposing REST endpoints.
@@ -196,10 +196,10 @@ exec mlc_llm serve --host 0.0.0.0 --port "${PORT:-8000}"
    curl -X POST http://localhost:8000/v1/chat/completions \
      -H "Content-Type: application/json" \
      -d '{
-           "model":"Llama-2-7b-chat-glm-4b-q0f16_0",
+          "model":"phi-3-mini-4k-instruct-q4f16_1",
            "messages":[{"role":"user","content":"Hello"}]
          }'
-   # → {"model":"Llama-2-7b-chat-glm-4b-q0f16_0","choices":[{"message":{"role":"assistant","content":"Hello! I am a test model response."}}]}
+   # → {"model":"phi-3-mini-4k-instruct-q4f16_1","choices":[{"message":{"role":"assistant","content":"Hello! I am a test model response."}}]}
    ```
 
 ### 4.2 CI/CD Automated Test
@@ -274,7 +274,7 @@ To use a different LLM model:
      #!/usr/bin/env bash
      set -euo pipefail
 
-    MODEL="${DEFAULT_MODEL:-Llama-2-7b-chat-glm-4b-q0f16_0}"
+   MODEL="${DEFAULT_MODEL:-phi-3-mini-4k-instruct-q4f16_1}"
     echo "[INFO] Starting FastAPI server with model $MODEL on 0.0.0.0:${PORT:-8000} ..."
     exec mlc_llm serve --model "$MODEL" --host 0.0.0.0 --port "${PORT:-8000}"
     ```
@@ -520,7 +520,7 @@ curl http://localhost:8000/
 curl -X POST http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-        "model":"Llama-2-7b-chat-glm-4b-q0f16_0",
+        "model":"phi-3-mini-4k-instruct-q4f16_1",
         "messages":[{"role":"user","content":"Hello"}]
       }'
 ```
@@ -529,7 +529,7 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 
 ```json
 {
-  "model":"Llama-2-7b-chat-glm-4b-q0f16_0",
+  "model":"phi-3-mini-4k-instruct-q4f16_1",
   "choices":[
     {
       "message":{
@@ -658,7 +658,7 @@ INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
    curl -X POST https://mlc-llm.fly.dev/v1/chat/completions \
      -H "Content-Type: application/json" \
      -d '{
-           "model":"Llama-2-7b-chat-glm-4b-q0f16_0",
+          "model":"phi-3-mini-4k-instruct-q4f16_1",
            "messages":[{"role":"user","content":"Hello"}]
          }'
    ```
@@ -789,12 +789,12 @@ The official docs at **[https://llm.mlc.ai/](https://llm.mlc.ai/)** provide up-t
   * Download a model:
 
     ```bash
-    mlc_llm download-model --model-name Llama-2-7b-chat-glm-4b-q0f16_0
+    mlc_llm download-model --model-name phi-3-mini-4k-instruct-q4f16_1
     ```
   * Serve a model:
 
     ```bash
-    mlc_llm serve --model Llama-2-7b-chat-glm-4b-q0f16_0 --device cpu --host 0.0.0.0 --port 8000
+    mlc_llm serve --model phi-3-mini-4k-instruct-q4f16_1 --device cpu --host 0.0.0.0 --port 8000
     ```
   * Python client example:
 
@@ -804,7 +804,7 @@ The official docs at **[https://llm.mlc.ai/](https://llm.mlc.ai/)** provide up-t
     async def main():
         client = AsyncClient("http://localhost:8000")
         resp = await client.chat_completions(
-            "Llama-2-7b-chat-glm-4b-q0f16_0",
+            "phi-3-mini-4k-instruct-q4f16_1",
             [{"role":"user","content":"Hello"}]
         )
         print(resp.choices[0].message.content)
@@ -818,7 +818,7 @@ The official docs at **[https://llm.mlc.ai/](https://llm.mlc.ai/)** provide up-t
   [https://llm.mlc.ai/docs/models/](https://llm.mlc.ai/docs/models/)
 * **Usage**:
   Provides a list of supported model names (e.g.,
-  `"Llama-2-7b-chat-glm-4b-q0f16_0"`, `"Llama-2-13b-chat-v1"`).
+  `"phi-3-mini-4k-instruct-q4f16_1"`, `"Llama-2-13b-chat-v1"`).
 * When deploying, ensure you reference a valid model string.
 
 ### 13.4 CLI Commands

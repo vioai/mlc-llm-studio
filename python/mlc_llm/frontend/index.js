@@ -11,7 +11,7 @@ const messages = [
 const availableModels = webllm.prebuiltAppConfig.model_list.map(
   (m) => m.model_id,
 );
-let selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC";
+let selectedModel = "phi-3-mini-4k-instruct-q4f16_1";
 
 // Callback function for initializing progress
 function updateEngineInitProgressCallback(report) {
